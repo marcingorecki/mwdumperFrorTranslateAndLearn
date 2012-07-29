@@ -28,9 +28,21 @@ public class SecitionProcessor {
 			"Abbreviation",
 			"Proverb",
 			"Alternative spellings",
+			"Usage notes",	
 			"Abbreviations"});
+	
+	static List<String> minimumSetHeaders = Arrays.asList(new String[] {
+			"Verb",
+			"Noun",
+			"Adjective",
+			"Participle",
+			"Proper noun",
+			"Adverb",
+			"Pronoun",
+			"Proverb"
+	});
 
-	//			"Usage notes",	
+	
 	
 	/**
 	 * First implementation treats all sections the same, but it can be changed so each section will be treated to match its unique
@@ -38,7 +50,7 @@ public class SecitionProcessor {
 	 */
 	public static String processSection(String header, String body){
 		String result="";
-		if(headers.contains(header)){
+		if(minimumSetHeaders.contains(header)){
 			result=header+"\n"+body+"\n";
 		}
 		return result;

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.mediawiki.importer.sqllite.SqlLitePopulator;
+import org.mediawiki.parser.ParseResult;
 import org.mediawiki.parser.WordPageParser;
 
 public class TranslateAndLearnDumpWriter implements DumpWriter {
@@ -28,6 +30,7 @@ public class TranslateAndLearnDumpWriter implements DumpWriter {
 	Pattern p = Pattern.compile("==([a-zA-Z ]+)==");
 	Map<String, Integer> langsFound = new HashMap<String, Integer>();
 	private WordPageParser wordPageParser = new WordPageParser();
+	private SqlLitePopulator sqlLitePopulator = new SqlLitePopulator();
 
 	public TranslateAndLearnDumpWriter(OutputStream output) throws IOException {
 		stream = output;
@@ -84,7 +87,8 @@ public class TranslateAndLearnDumpWriter implements DumpWriter {
 				langsFound.put(lang, i);
 				if(lang.equals("English")){
 					try {
-						wordPageParser.parse(title, contents);
+						ParseResult result = wordPageParser.parse(title, contents);
+						sqlLitePopulator.store(result);
 					} catch (Exception e) {
 						throw new IOException(e);
 					}
